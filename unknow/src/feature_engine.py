@@ -92,18 +92,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Lysin finder")
     parser.add_argument("-f", "--fasta", required=True, type=str, help="protein sequence")
     parser.add_argument("-s", "--ss", required=True, type=str, help="ss8 format,secondary structure")
-    parser.add_argument("-fo", "--out_fasta", required=True, type=str, help="protein sequence output by length filtering")
-    parser.add_argument("-so", "--out_ss", required=True, type=str, help="ss8 format,secondary structure output by length filtering")
-    parser.add_argument("-li", "--len_min", required=False, default=100, type=float, help="upper proteins length")
-    parser.add_argument("-lq", "--len_max", required=False, default=500, type=float, help="lower proteins length")
     parser.add_argument("-rf", "--res_feat", required=True, type=str, help="feature matrix file")
     Args = parser.parse_args()
     
     # executing the main function
-    #input_path_1 = '/home/user/Desktop/laber/amidase_struct_90/amidase.fasta'
-    #input_path_2 = '/home/user/Desktop/laber/amidase_struct_90/amidase.ss8'
-    #output_path_1 = '/home/user/Desktop/laber/amidase_struct_90/amidase_100_500.fasta'
-    #output_path_2 = '/home/user/Desktop/laber/amidase_struct_90/amidase_100_500.ss8'
+    #input_path_1 = '/home/user/Desktop/laber/amidase_struct_90/amidase_100_500.fasta'
+    #input_path_2 = '/home/user/Desktop/laber/amidase_struct_90/amidase_100_500.ss8'
     #res_feat = '/home/user/Desktop/laber/feat_amidase.csv'
     
     input_path_1 = Args.fasta
@@ -123,21 +117,11 @@ if __name__ == '__main__':
     encode = {'H': [0,0,0,0,0,0,0,1] , 'G': [0,0,0,0,0,0,1,0], 'I': [0,0,0,0,0,1,0,0], 'E': [0,0,0,0,1,0,0,0], 
               'B': [0,0,0,1,0,0,0,0], 'T': [0,0,1,0,0,0,0,0], 'S': [0,1,0,0,0,0,0,0], 'C': [1,0,0,0,0,0,0,0]}
     
-    with open(output_path_1,'w') as w:  
-      for key in fa_seq:
-        if len(fa_seq[key]) < len_max and len(fa_seq[key]) > len_min:
-          line = '>' + fa_seq[key] + '\n' + fa_seq[key] + '\n'
-          w.write(line)
-          data.append(fa_seq[key])
-    w.close()
-    
-    with open(output_path_2,'w') as w:
-      for key in fa_struct:
-        if len(fa_struct[key]) < len_max and len(fa_struct[key]) > len_min:
-          line = '>' + fa_struct[key] + '\n' + fa_struct[key] + '\n'
-          w.write(line)
-          struct_a.append(fa_struct[key])
-    w.close()
+    for key in fa_seq:
+      data.append(fa_seq[key])
+      
+    for key in fa_seq:
+      struct_a.append(fa_struct[key])
     
     
     seq_lenmax = len(max(data, key=len, default=''))
