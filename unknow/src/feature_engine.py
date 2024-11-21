@@ -22,13 +22,6 @@ from keras.layers.wrappers import Bidirectional
 from sklearn.decomposition import PCA 
 
 
-
-data = ['LLENGAIFVTSG', 'VTTNGPPNGKHNDKHTYVEC', 'SAGMIPAEPGEA']
-struct_a = ['HHBHBGTSICEEBH','GTGTSIIICEBHHB','ECISTTGBBH']
-encode = {'H': [0,0,0,0,0,0,0,1] , 'G': [0,0,0,0,0,0,1,0], 'I': [0,0,0,0,0,1,0,0], 'E': [0,0,0,0,1,0,0,0], 
-          'B': [0,0,0,1,0,0,0,0], 'T': [0,0,1,0,0,0,0,0], 'S': [0,1,0,0,0,0,0,0], 'C': [1,0,0,0,0,0,0,0]}
-
-
 def PadEncode(data, max_len):
 
     # encoding
