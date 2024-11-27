@@ -149,7 +149,7 @@ if __name__ == '__main__':
     with open(res_feat,'w',newline='') as f:
       for i in property_seq_pca:
         new_i = list(map(str,i))
-        line = ','.join(new_i) + '\n'
+        line = '\t'.join(new_i) + '\n'
         f.write(line)
     f.close()
     
@@ -157,7 +157,7 @@ if __name__ == '__main__':
     with open(res_feat_seq,'w',newline='') as f:
       for i in seq_feature:
         new_i = list(map(str,i))
-        line = ','.join(new_i) + '\n'
+        line = '\t'.join(new_i) + '\n'
         f.write(line)
     f.close()
     
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     with open(res_feat_property,'w',newline='') as f:
       for i in property_all_lis:
         new_i = list(map(str,i))
-        line = ','.join(new_i) + '\n'
+        line = '\t'.join(new_i) + '\n'
         f.write(line)
     f.close()
     
@@ -173,7 +173,7 @@ if __name__ == '__main__':
     with open(res_feat_struct,'w',newline='') as f:
       for i in pca_feature:
         new_i = list(map(str,i))
-        line = ','.join(new_i) + '\n'
+        line = '\t'.join(new_i) + '\n'
         f.write(line)
     f.close()
     
