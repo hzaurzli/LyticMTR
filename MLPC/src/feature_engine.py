@@ -96,10 +96,10 @@ if __name__ == '__main__':
     #input_path_1 = '/home/user/Desktop/laber/glycosidase_struct_90/glycosidase_100_500.fasta'
     #input_path_2 = '/home/user/Desktop/laber/glycosidase_struct_90/glycosidase_100_500.ss8'
     #input_path_3 = '/home/user/Desktop/laber/property/glycosidase_100_500.txt'
-    #res_feat = '/home/user/Desktop/laber/feat_glycosidase.csv'
-    #res_feat_seq = '/home/user/Desktop/laber/feat_seq_glycosidase.csv'
-    #res_feat_property = '/home/user/Desktop/laber/feat_property_glycosidase.csv'
-    #res_feat_struct = '/home/user/Desktop/laber/feat_struct_glycosidase.csv'
+    #res_feat = '/home/user/Desktop/laber/feat_glycosidase.txt'
+    #res_feat_seq = '/home/user/Desktop/laber/feat_seq_glycosidase.txt'
+    #res_feat_property = '/home/user/Desktop/laber/feat_property_glycosidase.txt'
+    #res_feat_struct = '/home/user/Desktop/laber/feat_struct_glycosidase.txt'
     
     input_path_1 = Args.fasta
     input_path_2 = Args.ss
