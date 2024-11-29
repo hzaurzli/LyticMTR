@@ -134,6 +134,7 @@ if __name__ == '__main__':
     for i in property_feat:
       item = i.strip().split('\t')
       property_lis = []
+      property_lis.append(item[0])
       property_lis.append(item[3])
       property_lis.append(item[4])
       property_lis.append(item[5])
