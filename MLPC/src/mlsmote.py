@@ -3,25 +3,8 @@ import pandas as pd
 import random
 from sklearn.datasets import make_classification
 from sklearn.neighbors import NearestNeighbors
+import argparse,os
 
-
-def create_dataset(n_sample=1000):
-    '''
-    Create a unevenly distributed sample data set multilabel
-    classification using make_classification function
-
-    args
-    nsample: int, Number of sample to be created
-
-    return
-    X: pandas.DataFrame, feature vector dataframe with 10 features
-    y: pandas.DataFrame, target vector dataframe with 5 labels
-    '''
-    X, y = make_classification(n_classes=5, class_sep=2,
-                               weights=[0.1, 0.025, 0.205, 0.008, 0.9], n_informative=3, n_redundant=1, flip_y=0,
-                               n_features=10, n_clusters_per_class=1, n_samples=1000, random_state=10)
-    y = pd.get_dummies(y, prefix='class')
-    return pd.DataFrame(X), y
 
 
 def get_tail_label(df):
@@ -136,14 +119,39 @@ if __name__ == '__main__':
     """
     main function to use the MLSMOTE
     """
-    X, y = create_dataset()  # Creating a Dataframe
+    parser = argparse.ArgumentParser(description="MLSMOTE")
+    parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
+    parser.add_argument("-iy", "--input_y", required=True, type=str, help="laber file (txt, '\t'")
+    parser.add_argument("-o", "--output", required=True, type=str, help="output path")
+    parser.add_argument("-n", "--n_sample", required=True, type=int, help="number of newly generated sample")
+    Args = parser.parse_args()
+    
+    path = os.path.abspath(Args.output)
+    print(path)
+    
+    X_file = Args.input_X
+    f = open(X_file)
+    with open(path + '/X_tmp.txt','w') as w:
+      for i in f:
+        line = '\t'.join(i.strip().split('\t')[1:])
+        w.write(line)
+    w.close()
+    
+    X_data = pd.read_table(path + '/X_tmp.txt', low_memory=False, sep = '\t',header = None)
+    X_df = pd.DataFrame(X_data)
+    X = X_df
+    
+    y_file = Args.input_y
+    y_data = pd.read_table(y_file, low_memory=False, sep = '\t',header = None)
+    y_df = pd.DataFrame(y_data)
+    y = y_df
+
     X_sub, y_sub = get_minority_instace(X, y)  # Getting minority instance of that datframe
-    X_res, y_res = MLSMOTE(X_sub, y_sub, 100)  # Applying MLSMOTE to augment the dataframe
-    print(X_res)
-    print(y_res)
-
-    X.to_csv("D:/Documents/Desktop/feat1.csv", index=False, sep=',')
-    y.to_csv("D:/Documents/Desktop/test1.csv", index=False, sep=',')
-
-    X_res.to_csv("D:/Documents/Desktop/feat2.csv", index=False, sep=',')
-    y_res.to_csv("D:/Documents/Desktop/test2.csv", index=False, sep=',')
+    
+    print('finish minority instace')
+    os.remove(path + '/X_tmp.txt')
+    
+    X_res, y_res = MLSMOTE(X_sub, y_sub, Args.n_sample)  # Applying MLSMOTE to augment the dataframe
+  
+    X_res.to_table(path + "/X_res.txt", index=False, sep='\t')
+    y_res.to_table(path + "/y_res.txt", index=False, sep='\t')
