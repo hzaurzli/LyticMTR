@@ -82,7 +82,7 @@ def fasta2dict(fasta_name):
 
     
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Lysin finder")
+    parser = argparse.ArgumentParser(description="Feature engine")
     parser.add_argument("-f", "--fasta", required=True, type=str, help="protein sequence")
     parser.add_argument("-s", "--ss", required=True, type=str, help="ss8 format,secondary structure")
     parser.add_argument("-p", "--property", required=True, type=str, help="property")
