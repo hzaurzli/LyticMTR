@@ -11,7 +11,7 @@ def main(dict1,dict2,k):
 
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description="Lysin finder")
+  parser = argparse.ArgumentParser(description="Random sample")
   parser.add_argument("-i", "--input_file", required=True, type=str, help="input feature table (txt,'\t')")
   parser.add_argument("-o", "--output_file", required=True, type=str, help="output feature table (after sample, txt,'\t')")
   parser.add_argument("-k", "--sample_k", required=True, type=int, help="sample number")
