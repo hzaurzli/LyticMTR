@@ -1,8 +1,8 @@
-import random
+import numpy as np
 import argparse
 
 def main(dict1,dict2,k):
-  random_keys = random.choices(list(dict1.keys()), k=k)
+  random_keys = np.random.choice(list(dict1.keys()), k, replace = False)
   for random_key in random_keys:
     random_value = dict1[random_key]
     dict2[random_key] = random_value
