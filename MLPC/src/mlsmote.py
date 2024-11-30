@@ -6,7 +6,6 @@ from sklearn.neighbors import NearestNeighbors
 import argparse,os
 
 
-
 def get_tail_label(df):
     """
     Give tail label colums of the given target dataframe
@@ -133,7 +132,7 @@ if __name__ == '__main__':
     f = open(X_file)
     with open(path + '/X_tmp.txt','w') as w:
       for i in f:
-        line = '\t'.join(i.strip().split('\t')[1:])
+        line = '\t'.join(i.strip().split('\t')[1:]) + '\n'
         w.write(line)
     w.close()
     
@@ -146,12 +145,14 @@ if __name__ == '__main__':
     y_df = pd.DataFrame(y_data)
     y = y_df
 
-    X_sub, y_sub = get_minority_instace(X, y)  # Getting minority instance of that datframe
+    X_sub, y_sub = get_minority_instace(X, y)  # Getting minority instance of that dataframe
+    X_sub.to_csv(path + "/X_sub.txt", index=False, sep='\t')
+    y_sub.to_csv(path + "/y_sub.txt", index=False, sep='\t')
     
     print('finish minority instace')
-    os.remove(path + '/X_tmp.txt')
     
     X_res, y_res = MLSMOTE(X_sub, y_sub, Args.n_sample)  # Applying MLSMOTE to augment the dataframe
   
-    X_res.to_table(path + "/X_res.txt", index=False, sep='\t')
-    y_res.to_table(path + "/y_res.txt", index=False, sep='\t')
+    X_res.to_csv(path + "/X_res.txt", index=False, sep='\t')
+    y_res.to_csv(path + "/y_res.txt", index=False, sep='\t')
+    os.remove(path + '/X_tmp.txt')
