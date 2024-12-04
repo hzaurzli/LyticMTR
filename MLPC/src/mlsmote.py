@@ -6,6 +6,7 @@ from sklearn.neighbors import NearestNeighbors
 import argparse,os
 
 
+
 def get_tail_label(df):
     """
     Give tail label colums of the given target dataframe
@@ -152,7 +153,9 @@ if __name__ == '__main__':
     print('finish minority instace')
     
     X_res, y_res = MLSMOTE(X_sub, y_sub, Args.n_sample)  # Applying MLSMOTE to augment the dataframe
+    re_index = ['sample_' + str(re) for re in range(1, len(X_res) + 1)]
+    X_res.index = re_index
   
-    X_res.to_csv(path + "/X_res.txt", index=False, sep='\t')
-    y_res.to_csv(path + "/y_res.txt", index=False, sep='\t')
+    X_res.to_csv(path + "/X_res.txt", header=0, index=True, sep='\t')
+    y_res.to_csv(path + "/y_res.txt", header=0, index=True, sep='\t')
     os.remove(path + '/X_tmp.txt')
