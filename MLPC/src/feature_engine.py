@@ -22,26 +22,33 @@ from keras.layers.wrappers import Bidirectional
 from sklearn.decomposition import PCA 
 
 
-def PadEncode(data, max_len):
-
-    # encoding
-    amino_acids = 'XACDEFGHIKLMNPQRSTVWY'
-    data_e = []
-    for i in range(len(data)):
-        length = len(data[i])
-        elemt, st = [], data[i]
-        for j in st:
-            index = amino_acids.index(j)
-            elemt.append(index)
-        if length < max_len:
-            elemt += [0]*(max_len-length)
-        data_e.append(elemt)
-
-    return data_e
+def seq_pca(data,encode_seq,max_len):
+    seq_pca_feature = []
+    for i in data:
+      soh = []
+      for j in i:
+        soh.append(encode_seq[j])
+        
+      pca = PCA(n_components=1)      
+      array = np.asarray(soh)
+      reduced_x = pca.fit_transform(array)
+      reduced_y = reduced_x.tolist()
+      reduced_z = []
+      for n in reduced_y:
+        reduced_z.append(n[0])
+        
+      elemt = []
+      if len(reduced_z) < max_len:
+        elemt += [0]*(max_len-len(reduced_z))
+        reduced_z.extend(elemt)
+          
+      seq_pca_feature.append(reduced_z)
+      
+    return seq_pca_feature
     
  
 def struct_pca(struct_a,encode,max_len):
-    pca_feature = []
+    struct_pca_feature = []
     for i in struct_a:
       soh = []
       for j in i:
@@ -62,7 +69,7 @@ def struct_pca(struct_a,encode,max_len):
           
       pca_feature.append(reduced_z)
       
-    return pca_feature
+    return struct_pca_feature
     
 
 def fasta2dict(fasta_name):    
