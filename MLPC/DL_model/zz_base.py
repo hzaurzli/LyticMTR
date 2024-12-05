@@ -4,10 +4,6 @@ import numpy as np
 from pathlib import Path
 dir = 'base'
 Path(dir).mkdir(exist_ok=True)
-t = time.localtime(time.time())
-with open(os.path.join(dir, 'time.txt'), 'w') as f:
-    f.write('start time: {}m {}d {}h {}m {}s'.format(t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec))
-    f.write('\n')
 from sklearn.model_selection import train_test_split
 
 
@@ -33,8 +29,12 @@ if __name__ == '__main__':
   
   feats = []
   for i in f:
-    feat = i.strip().split('\t')[1:]
-    feat_tmp = list(map(float,feat))
+    feat_property = i.strip().split('\t')[1:6]
+    feat_other = i.strip().split('\t')[6:]
+    feat_property_padding = [0] * 495
+    feat_property.extend(feat_property_padding)
+    feat_property.extend(feat_other)
+    feat_tmp = list(map(float,feat_property))
     feats.append(feat_tmp)
     
   laber_tmp = []
