@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Author  : twd
-# @FileName: test.py
-# @Software: PyCharm
-
-
 import os
 from pathlib import Path
 import keras

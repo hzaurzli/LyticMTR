@@ -27,30 +27,15 @@ def base(length, out_length, para):
     dp = para['drop_out']
     lr = para['learning_rate']
     l2value = 0.001
-
-
-    main_input = Input(shape=(length,), dtype='float32', name='main_input')
-    # 张量的切片也要写为层的形式,函数式会报错
-    input_seq = keras.layers.Lambda(slice, arguments={'w1': 0, 'w2': 200})(main_input)
-    length_seq = input_seq.shape[1]
-    print(length_seq)
-    #length_seq = input_seq.shape[1]
-    # 张量的切片也要写为层的形式,函数式会报错
-    input_property = keras.layers.Lambda(slice, arguments={'w1': 200, 'w2': 400})(main_input)
-    # 张量的切片也要写为层的形式,函数式会报错
-    input_struct = keras.layers.Lambda(slice, arguments={'w1': 300, 'w2': 500})(main_input)
-    
-    merge_1 = keras.layers.Concatenate(axis=-1)([input_seq, input_property, input_struct])
-    print(merge_1.shape)
      
     main_input = Input(shape=(length,), dtype='float32', name='main_input')
     # 张量的切片也要写为层的形式,函数式会报错
-    input_seq = keras.layers.Lambda(slice, arguments={'w1': 0, 'w2': 200})(main_input)
+    input_seq = keras.layers.Lambda(slice, arguments={'w1': 500, 'w2': 1000})(main_input)
     length_seq = int(input_seq.shape[1]) # 这里注意转换一下数据类型,否则会报"TypeError: unhashable type: 'Dimension'"
     # 张量的切片也要写为层的形式,函数式会报错
-    input_property = keras.layers.Lambda(slice, arguments={'w1': 200, 'w2': 400})(main_input)
+    input_property = keras.layers.Lambda(slice, arguments={'w1': 0, 'w2': 500})(main_input)
     # 张量的切片也要写为层的形式,函数式会报错
-    input_struct = keras.layers.Lambda(slice, arguments={'w1': 300, 'w2': 500})(main_input)
+    input_struct = keras.layers.Lambda(slice, arguments={'w1': 1000, 'w2': length})(main_input)
  
     ####### sequence
     x = Embedding(output_dim=ed, input_dim=21, input_length=length_seq)(input_seq)

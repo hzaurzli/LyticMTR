@@ -1,19 +1,6 @@
-# -*- coding: utf-8 -*-
-# @Author  : twd
-# @FileName: train.py
-# @Software: PyCharm
-
-
 import os
 import tensorflow as tf
 import keras
-#from keras.backend.tensorflow_backend import set_session
-##os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-#config = tf.ConfigProto()
-# config.gpu_options.per_process_gpu_memory_fraction = 0.3
-#config.gpu_options.allow_growth=True
-#set_session(tf.Session(config=config))
-
 import numpy as np
 np.random.seed(101)
 from pathlib import Path
@@ -55,6 +42,8 @@ from model import base, BiGRU_base
 def train_my(train, para, model_num, model_path):
 
     Path(model_path).mkdir(exist_ok=True)
+    
+    print('starting')
 
     # data get
     X_train, y_train = train[0], train[1]
@@ -68,10 +57,6 @@ def train_my(train, para, model_num, model_path):
     index = np.arange(len(y_train))
     np.random.shuffle(index)
     X_train = X_train[index]
-    
-    X_train_seq = X_train[:,:200]
-    X_train_property = X_train[:,200:400]
-    X_train_struct = X_train[:,400:]
     y_train = y_train[index]
 
     # train
@@ -80,11 +65,6 @@ def train_my(train, para, model_num, model_path):
     length_property = X_train_property.shape[1]
     length_struct = X_train_struct.shape[1]
     out_length = y_train.shape[1]
-
-    t_data = time.localtime(time.time())
-    with open(os.path.join(model_path, 'time.txt'), 'a+') as f:
-        f.write('data process finished: {}m {}d {}h {}m {}s\n'.format(t_data.tm_mon,t_data.tm_mday,t_data.tm_hour,t_data.tm_min,t_data.tm_sec))
-
 
     for counter in range(1, model_num+1):
         # neural network model

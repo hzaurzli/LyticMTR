@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Author  : twd
-# @FileName: evaluation.py
-# @Software: PyCharm
-
-
 from sklearn.metrics import confusion_matrix,roc_auc_score,matthews_corrcoef,roc_curve,auc
 from sklearn.metrics import f1_score,accuracy_score,recall_score,precision_score,precision_recall_curve
 
