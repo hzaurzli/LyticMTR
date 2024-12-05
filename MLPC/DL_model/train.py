@@ -74,10 +74,11 @@ def train_my(train, para, model_num, model_path):
       
         print(model_num)
         print('hello world')
-        model.fit(X_train, y_train, nb_epoch=5, batch_size=64, verbose=2)
+        model.fit(X_train, y_train, nb_epoch=30, batch_size=64, verbose=2)
         each_model = os.path.join(model_path, 'model' + str(counter) + '.h5')
         model.save(each_model)
 
+       
 import time
 from test import test_my
 def train_main(train, test, model_num, dir):

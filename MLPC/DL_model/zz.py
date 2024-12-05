@@ -4,10 +4,6 @@ import numpy as np
 from pathlib import Path
 dir = 'BiGRU_base'
 Path(dir).mkdir(exist_ok=True)
-t = time.localtime(time.time())
-with open(os.path.join(dir, 'time.txt'), 'w') as f:
-    f.write('start time: {}m {}d {}h {}m {}s'.format(t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec))
-    f.write('\n')
 from sklearn.model_selection import train_test_split
 
 
@@ -28,13 +24,18 @@ def TrainAndTest(tr_data, tr_label, te_data, te_label):
 
 
 if __name__ == '__main__':
-  f = open('/home/user/Desktop/yyf_data/laber/random_sample/tmp.txt')
+  f = open('/home/user/Desktop/yyf_data/laber/random_sample/final_input.txt')
   g = open('/home/user/Desktop/yyf_data/laber/random_sample/laber.txt')
   
+  max_seq_len = 500
   feats = []
   for i in f:
-    feat = i.strip().split('\t')[1:]
-    feat_tmp = list(map(float,feat))
+    feat_property = i.strip().split('\t')[1:6]
+    feat_other = i.strip().split('\t')[6:]
+    feat_property_padding = [0] * int(max_seq_len - len(feat_property))
+    feat_property.extend(feat_property_padding)
+    feat_property.extend(feat_other)
+    feat_tmp = list(map(float,feat_property))
     feats.append(feat_tmp)
     
   laber_tmp = []
