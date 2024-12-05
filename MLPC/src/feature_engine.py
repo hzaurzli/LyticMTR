@@ -94,9 +94,6 @@ if __name__ == '__main__':
     parser.add_argument("-s", "--ss", required=True, type=str, help="ss8 format,secondary structure")
     parser.add_argument("-p", "--property", required=True, type=str, help="property")
     parser.add_argument("-rf", "--res_feat", required=True, type=str, help="feature matrix file")
-    parser.add_argument("-rfs", "--res_feat_seq", required=True, type=str, help="sequence feature matrix file")
-    parser.add_argument("-rfp", "--res_feat_property", required=True, type=str, help="property feature matrix file")
-    parser.add_argument("-rft", "--res_feat_struct", required=True, type=str, help="secondary structurefeature matrix file")
     Args = parser.parse_args()
     
     # executing the main function
@@ -104,17 +101,12 @@ if __name__ == '__main__':
     #input_path_2 = '/home/user/Desktop/laber/glycosidase_struct_90/glycosidase_100_500.ss8'
     #input_path_3 = '/home/user/Desktop/laber/property/glycosidase_100_500.txt'
     #res_feat = '/home/user/Desktop/laber/feat_glycosidase.txt'
-    #res_feat_seq = '/home/user/Desktop/laber/feat_seq_glycosidase.txt'
-    #res_feat_property = '/home/user/Desktop/laber/feat_property_glycosidase.txt'
-    #res_feat_struct = '/home/user/Desktop/laber/feat_struct_glycosidase.txt'
+
     
     input_path_1 = Args.fasta
     input_path_2 = Args.ss
     input_path_3 = Args.property  
     res_feat = Args.res_feat
-    res_feat_seq = Args.res_feat_seq
-    res_feat_property = Args.res_feat_property
-    res_feat_struct = Args.res_feat_struct
 
     fa_seq = fasta2dict(input_path_1)
     fa_struct = fasta2dict(input_path_2)
