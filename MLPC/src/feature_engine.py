@@ -175,7 +175,7 @@ if __name__ == '__main__':
       property_all_lis.append(property_lis) 
       
     property_seq_pca = []
-    for i in range(0,len(seq_feature)):
+    for i in range(0,len(seq_pca_feature)):
       property_seq_pca.append(property_all_lis[i] + seq_pca_feature[i] + struct_pca_feature[i])
       
     with open(res_feat,'w',newline='') as f:
