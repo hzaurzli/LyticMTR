@@ -121,18 +121,43 @@ if __name__ == '__main__':
     
     data = []
     struct_a = []
+    seq_a = []
     encode = {'H': [0,0,0,0,0,0,0,1] , 'G': [0,0,0,0,0,0,1,0], 'I': [0,0,0,0,0,1,0,0], 'E': [0,0,0,0,1,0,0,0], 
               'B': [0,0,0,1,0,0,0,0], 'T': [0,0,1,0,0,0,0,0], 'S': [0,1,0,0,0,0,0,0], 'C': [1,0,0,0,0,0,0,0]}
+
+    encode_seq = {'X': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1], 
+                  'A': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0], 
+                  'C': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0], 
+                  'D': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0], 
+                  'E': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0], 
+                  'F': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0], 
+                  'G': [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0], 
+                  'H': [0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
+                  'I': [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0], 
+                  'K': [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0], 
+                  'L': [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0], 
+                  'M': [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0], 
+                  'N': [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'P': [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  'Q': [0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  'R': [0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'S': [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'T': [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'V': [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'W': [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+                  'Y': [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                  }
  
     for key in fa_seq:
       data.append(fa_seq[key])
       
     for key in fa_seq:
       struct_a.append(fa_struct[key])
+      
           
     seq_lenmax = len(max(data, key=len, default=''))
-    seq_feature = PadEncode(data,seq_lenmax)
-    pca_feature = struct_pca(struct_a,encode,seq_lenmax)
+    seq_pca_feature = seq_pca(data,encode_seq,seq_lenmax)
+    struct_pca_feature = struct_pca(struct_a,encode,seq_lenmax)
     
     
     property_feat = open(input_path_3)
@@ -151,34 +176,10 @@ if __name__ == '__main__':
       
     property_seq_pca = []
     for i in range(0,len(seq_feature)):
-      property_seq_pca.append(property_all_lis[i] + seq_feature[i] + pca_feature[i])
+      property_seq_pca.append(property_all_lis[i] + seq_pca_feature[i] + struct_pca_feature[i])
       
     with open(res_feat,'w',newline='') as f:
       for i in property_seq_pca:
-        new_i = list(map(str,i))
-        line = '\t'.join(new_i) + '\n'
-        f.write(line)
-    f.close()
-    
-    
-    with open(res_feat_seq,'w',newline='') as f:
-      for i in seq_feature:
-        new_i = list(map(str,i))
-        line = '\t'.join(new_i) + '\n'
-        f.write(line)
-    f.close()
-    
-    
-    with open(res_feat_property,'w',newline='') as f:
-      for i in property_all_lis:
-        new_i = list(map(str,i))
-        line = '\t'.join(new_i) + '\n'
-        f.write(line)
-    f.close()
-    
-    
-    with open(res_feat_struct,'w',newline='') as f:
-      for i in pca_feature:
         new_i = list(map(str,i))
         line = '\t'.join(new_i) + '\n'
         f.write(line)
