@@ -61,9 +61,6 @@ def train_my(train, para, model_num, model_path):
 
     # train
     length = X_train.shape[1]
-    length_seq = X_train_seq.shape[1]
-    length_property = X_train_property.shape[1]
-    length_struct = X_train_struct.shape[1]
     out_length = y_train.shape[1]
 
     for counter in range(1, model_num+1):
@@ -80,12 +77,6 @@ def train_my(train, para, model_num, model_path):
         model.fit(X_train, y_train, nb_epoch=5, batch_size=64, verbose=2)
         each_model = os.path.join(model_path, 'model' + str(counter) + '.h5')
         model.save(each_model)
-
-        tt = time.localtime(time.time())
-        with open(os.path.join(model_path, 'time.txt'), 'a+') as f:
-            f.write('count{}: {}m {}d {}h {}m {}s\n'.format(str(counter),tt.tm_mon,tt.tm_mday,tt.tm_hour,tt.tm_min,tt.tm_sec))
-
-
 
 import time
 from test import test_my
