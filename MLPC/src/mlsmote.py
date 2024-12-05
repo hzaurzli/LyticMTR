@@ -155,6 +155,7 @@ if __name__ == '__main__':
     X_res, y_res = MLSMOTE(X_sub, y_sub, Args.n_sample)  # Applying MLSMOTE to augment the dataframe
     re_index = ['sample_' + str(re) for re in range(1, len(X_res) + 1)]
     X_res.index = re_index
+    y_res.index = re_index
   
     X_res.to_csv(path + "/X_res.txt", header=0, index=True, sep='\t')
     y_res.to_csv(path + "/y_res.txt", header=0, index=True, sep='\t')
