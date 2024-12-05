@@ -67,7 +67,7 @@ def struct_pca(struct_a,encode,max_len):
         elemt += [0]*(max_len-len(reduced_z))
         reduced_z.extend(elemt)
           
-      pca_feature.append(reduced_z)
+      struct_pca_feature.append(reduced_z)
       
     return struct_pca_feature
     
