@@ -1,10 +1,10 @@
-from keras.layers import Input, Embedding, Convolution1D, MaxPooling1D, Concatenate, Dropout, merge
+from keras.layers import Input, Embedding, Convolution1D, MaxPooling1D, Concatenate, Dropout, merge, Lambda
 from keras.layers import Flatten, Dense, Activation, BatchNormalization, GRU
 from keras.models import Model, Sequential
 from keras.regularizers import l2
 from keras.optimizers import Adam, SGD
 from keras.layers.wrappers import Bidirectional
-import keras
+from keras.backend import expand_dims
 import numpy as np
 
 
@@ -15,7 +15,7 @@ def slice(x, w1, w2):
 
 
 def expand_dim(x):
-    xa = keras.backend.expand_dims(x, axis=-1)
+    xa = expand_dims(x, axis=-1)
     return xa
 
 # 定义为层,而非函数
@@ -30,16 +30,16 @@ def base(length, out_length, para):
      
     main_input = Input(shape=(length,), dtype='float32', name='main_input')
     # 张量的切片也要写为层的形式,函数式会报错
-    input_seq = keras.layers.Lambda(slice, arguments={'w1': 500, 'w2': 1000})(main_input)
+    input_seq = Lambda(slice, arguments={'w1': 500, 'w2': 1000})(main_input)
     length_seq = int(input_seq.shape[1]) # 这里注意转换一下数据类型,否则会报"TypeError: unhashable type: 'Dimension'"
     # 张量的切片也要写为层的形式,函数式会报错
-    input_property = keras.layers.Lambda(slice, arguments={'w1': 0, 'w2': 500})(main_input)
+    input_property = Lambda(slice, arguments={'w1': 0, 'w2': 500})(main_input)
     # 张量的切片也要写为层的形式,函数式会报错
-    input_struct = keras.layers.Lambda(slice, arguments={'w1': 1000, 'w2': length})(main_input)
+    input_struct = Lambda(slice, arguments={'w1': 1000, 'w2': length})(main_input)
  
     ####### sequence
     #x = Embedding(output_dim=ed, input_dim=21, input_length=length_seq)(input_seq)
-    x = keras.layers.Lambda(expand_dim)(input_seq)
+    x = Lambda(expand_dim)(input_seq)
 
     a_seq = Convolution1D(64, 2, activation='relu', border_mode='same', W_regularizer=l2(l2value))(x)
     apool_seq = MaxPooling1D(pool_length=ps, stride=1, border_mode='same')(a_seq)
@@ -52,7 +52,7 @@ def base(length, out_length, para):
     
     ####### property
     #main_input_property_tmp = keras.backend.expand_dims(main_input_property, axis=-1)
-    y = keras.layers.Lambda(expand_dim)(input_property) # 要先定义扩展维度的函数expand_dim,然后用Lambda定义层
+    y = Lambda(expand_dim)(input_property) # 要先定义扩展维度的函数expand_dim,然后用Lambda定义层
 
     a_property = Convolution1D(64, 2, activation='relu', border_mode='same', W_regularizer=l2(l2value))(y)
     apool_property = MaxPooling1D(pool_length=ps, stride=1, border_mode='same')(a_property)
@@ -65,7 +65,7 @@ def base(length, out_length, para):
     
     ####### struct
     #main_input_struct_tmp = keras.backend.expand_dims(main_input_struct, axis=-1)
-    z = keras.layers.Lambda(expand_dim)(input_struct) # 要先定义扩展维度的函数expand_dim,然后用Lambda定义层
+    z = Lambda(expand_dim)(input_struct) # 要先定义扩展维度的函数expand_dim,然后用Lambda定义层
     
     a_struct = Convolution1D(64, 2, activation='relu', border_mode='same', W_regularizer=l2(l2value))(z)
     apool_struct = MaxPooling1D(pool_length=ps, stride=1, border_mode='same')(a_struct)
