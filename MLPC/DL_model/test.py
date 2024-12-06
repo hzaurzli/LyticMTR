@@ -7,24 +7,13 @@ from train import catch
 from evaluation import scores, evaluate
 import pickle
 from keras.models import load_model
-
-
+    
+    
 def predict(X_test, y_test, thred, para, weights, jsonFiles, h5_model, dir):
-
-    # with open('test_true_label.pkl', 'wb') as f:
-    #     pickle.dump(y_test, f)
 
     adam = Adam(lr=para['learning_rate']) # adam optimizer
     for ii in range(0, len(weights)):
         # 1.loading weight and structure (model)
-
-        # json_file = open('BiGRU_base/' + jsonFiles[i], 'r')
-        # model_json = json_file.read()
-        # json_file.close()
-        # load_my_model = model_from_json(model_json)
-        # load_my_model.load_weights('BiGRU_base/' + weights[i])
-        # load_my_model.compile(loss='binary_crossentropy', optimizer=adam, metrics=['accuracy'])
-
         h5_model_path = os.path.join(dir, h5_model[ii])
         load_my_model = load_model(h5_model_path)
         print("Prediction is in progress")

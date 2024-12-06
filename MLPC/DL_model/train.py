@@ -37,7 +37,7 @@ def catch(data, label):
 
 
 
-from model import base, BiGRU_base
+from model import *
 
 def train_my(train, para, model_num, model_path):
 
@@ -65,16 +65,14 @@ def train_my(train, para, model_num, model_path):
 
     for counter in range(1, model_num+1):
         # neural network model
-        if model_path == 'base':           
+        if model_path == 'CNN_base':           
             model = base(length, out_length, para)
         elif model_path == 'BiGRU_base':
             model = BiGRU_base(length, out_length, para)
         else:
             print('no model')
-      
-        print(model_num)
-        print('hello world')
-        model.fit(X_train, y_train, nb_epoch=30, batch_size=64, verbose=2)
+        
+        model.fit(X_train, y_train, nb_epoch=50, batch_size=64, verbose=2)
         each_model = os.path.join(model_path, 'model' + str(counter) + '.h5')
         model.save(each_model)
 
@@ -94,4 +92,4 @@ def train_main(train, test, model_num, dir):
 
     train_my(train, para, model_num, dir)
 
-    test_my(test, para, model_num, dir)
+    #test_my(test, para, model_num, dir)

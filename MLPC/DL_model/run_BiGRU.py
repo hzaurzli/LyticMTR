@@ -7,7 +7,7 @@ Path(dir).mkdir(exist_ok=True)
 from sklearn.model_selection import train_test_split
 
 
-def TrainAndTest(tr_data, tr_label, te_data, te_label):
+def Training(tr_data, tr_label, te_data, te_label):
 
     from train import train_main # load my training function
 
@@ -53,7 +53,7 @@ if __name__ == '__main__':
   
   feats_train, feats_test, labels_train, labels_test = train_test_split(feats_dat, labers_dat, test_size=0.3, random_state=0)
   
-  TrainAndTest(feats_train, labels_train, feats_test, labels_test)
+  Training(feats_train, labels_train, feats_test, labels_test)
 
 
   
