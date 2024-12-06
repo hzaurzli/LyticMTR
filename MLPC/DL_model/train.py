@@ -66,7 +66,7 @@ def train_my(train, para, model_num, model_path):
     for counter in range(1, model_num+1):
         # neural network model
         if model_path == 'CNN_base':           
-            model = base(length, out_length, para)
+            model = CNN_base(length, out_length, para)
         elif model_path == 'BiGRU_base':
             model = BiGRU_base(length, out_length, para)
         else:
