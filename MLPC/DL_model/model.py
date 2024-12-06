@@ -19,7 +19,7 @@ def expand_dim(x):
     return xa
 
 # 定义为层,而非函数
-def base(length, out_length, para):
+def CNN_base(length, out_length, para):
 
     ed = para['embedding_dimension']
     ps = para['pool_size']
