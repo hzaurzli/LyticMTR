@@ -72,7 +72,7 @@ def train_my(train, para, model_num, model_path):
         else:
             print('no model')
         
-        model.fit(X_train, y_train, nb_epoch=50, batch_size=64, verbose=2)
+        model.fit(X_train, y_train, nb_epoch=30, batch_size=64, verbose=2)
         each_model = os.path.join(model_path, 'model' + str(counter) + '.h5')
         model.save(each_model)
 
