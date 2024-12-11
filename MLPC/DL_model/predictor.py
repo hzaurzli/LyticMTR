@@ -17,7 +17,7 @@ import pandas as pd
 def predict(X_test, h5_model,res):
  # 1.loading weight and structure (model)
     h5_model_path = h5_model
-    load_my_model = load_model(h5_model_path, custom_objects={'keras.backend': keras.backend, 'expand_dims': expand_dims})
+    load_my_model = load_model(h5_model_path, custom_objects={'keras.backend': keras.backend, 'expand_dims': expand_dims}) # 需要传一个custom_objects参数,将自定义的层添加进去
     print("Prediction is in progress")
 
     # 2.predict
