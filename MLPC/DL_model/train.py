@@ -39,7 +39,7 @@ def catch(data, label):
 
 from model import *
 
-def train_my(train, para, model_num, model_path):
+def train_my(train, para, model_path):
 
     Path(model_path).mkdir(exist_ok=True)
     
@@ -63,23 +63,23 @@ def train_my(train, para, model_num, model_path):
     length = X_train.shape[1]
     out_length = y_train.shape[1]
 
-    for counter in range(1, model_num+1):
-        # neural network model
-        if model_path == 'CNN_base':           
-            model = CNN_base(length, out_length, para)
-        elif model_path == 'BiGRU_base':
-            model = BiGRU_base(length, out_length, para)
-        else:
-            print('no model')
-        
-        model.fit(X_train, y_train, nb_epoch=30, batch_size=64, verbose=2)
-        each_model = os.path.join(model_path, 'model' + str(counter) + '.h5')
-        model.save(each_model)
+     # neural network model
+    if model_path == 'CNN_base':           
+        model = CNN_base(length, out_length, para)
+    elif model_path == 'BiGRU_base':
+        model = BiGRU_base(length, out_length, para)
+    else:
+        print('no model')
+    
+    model.fit(X_train, y_train, nb_epoch=30, batch_size=64, verbose=2)
+    each_model = os.path.join(model_path, 'model' + '.h5')
+    model.save(each_model)
 
+       
        
 import time
 from test import test_my
-def train_main(train, test, model_num, dir):
+def train_main(train, test, dir):
 
     # parameters
     ed = 100
@@ -90,6 +90,6 @@ def train_main(train, test, model_num, dir):
     para = {'embedding_dimension': ed, 'pool_size': ps, 'fully_dimension': fd,
             'drop_out': dp, 'learning_rate': lr}
 
-    train_my(train, para, model_num, dir)
+    train_my(train, para, dir)
 
     #test_my(test, para, model_num, dir)

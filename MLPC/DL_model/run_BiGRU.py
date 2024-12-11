@@ -15,10 +15,9 @@ def Training(tr_data, tr_label, te_data, te_label):
     test = [te_data, te_label]
 
     threshold = 0.5
-    model_num = 1  # model number
     test.append(threshold)
     
-    train_main(train, test, model_num, dir)
+    train_main(train, test, dir)
     
     print(train)
 

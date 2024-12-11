@@ -3,7 +3,7 @@ from pathlib import Path
 import keras
 from keras.optimizers import Adam
 from keras.models import model_from_json
-from train import catch
+#from train import catch
 from evaluation import scores, evaluate
 import pickle
 from keras.models import load_model
