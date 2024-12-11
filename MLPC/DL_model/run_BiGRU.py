@@ -51,6 +51,10 @@ if __name__ == '__main__':
   print(labers_dat)
   
   feats_train, feats_test, labels_train, labels_test = train_test_split(feats_dat, labers_dat, test_size=0.3, random_state=0)
+  feats_train.to_csv("/home/user/Desktop/yyf_data/laber/random_sample/feats_train.txt", index=False, sep='\t')
+  feats_test.to_csv("/home/user/Desktop/yyf_data/laber/random_sample/feats_test.txt", index=False, sep='\t')
+  labels_train.to_csv("/home/user/Desktop/yyf_data/laber/random_sample/labels_train.txt", index=False, sep='\t')
+  labels_test.to_csv("/home/user/Desktop/yyf_data/laber/random_sample/labels_test.txt", index=False, sep='\t')
   
   Training(feats_train, labels_train, feats_test, labels_test)
 
