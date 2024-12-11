@@ -77,7 +77,7 @@ def CNN_base(length, out_length, para):
     cpool_struct = MaxPooling1D(pool_length=ps, stride=1, border_mode='same')(c_struct)
     
     # apool_property,bpool_property, cpool_property,apool_seq, bpool_seq, cpool_seq, apool_struct,bpool_struct, cpool_struct
-    merge = Concatenate(axis=-1)([apool_seq, bpool_seq, cpool_seq, apool_struct,bpool_struct, cpool_struct])
+    merge = Concatenate(axis=-1)([apool_property,bpool_property, cpool_property,apool_seq, bpool_seq, cpool_seq, apool_struct,bpool_struct, cpool_struct])
     merge = Dropout(dp)(merge)
 
     x_merge = Flatten()(merge)
