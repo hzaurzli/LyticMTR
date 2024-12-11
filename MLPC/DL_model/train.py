@@ -79,7 +79,7 @@ def train_my(train, para, model_path):
        
 import time
 from test import test_my
-def train_main(train, test, dir):
+def train_main(train, dir):
 
     # parameters
     ed = 100
@@ -91,5 +91,3 @@ def train_main(train, test, dir):
             'drop_out': dp, 'learning_rate': lr}
 
     train_my(train, para, dir)
-
-    #test_my(test, para, model_num, dir)
