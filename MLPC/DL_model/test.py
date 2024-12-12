@@ -75,12 +75,15 @@ def predict(X_test, y_test, para, h5_model):
           laber.append('0')
       functions.append(laber)
 
-    output_file = './result.txt'
+    output_file = './result_perf.txt'
     with open(output_file, 'w') as f:
-        for i in functions:
-            f.write('\t'.join(i) + '\n')
-
-    
+      f.write('aiming: '+aiming + '\n')
+      f.write('coverage: ' + coverage + '\n')
+      f.write('accuracy: ' + accuracy + '\n')
+      f.write('absolute_true: ' + absolute_true + '\n')
+      f.write('absolute_false: ' + absolute_false + '\n')
+    f.close()
+      
     "========================================"
     print("========================================")
     print(score_laber)
