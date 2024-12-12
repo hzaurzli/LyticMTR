@@ -121,7 +121,7 @@ if __name__ == '__main__':
     """
     parser = argparse.ArgumentParser(description="MLSMOTE")
     parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
-    parser.add_argument("-iy", "--input_y", required=True, type=str, help="laber file (txt, '\t'")
+    parser.add_argument("-iy", "--input_y", required=True, type=str, help="laber file (txt, '\t')")
     parser.add_argument("-o", "--output", required=True, type=str, help="output path")
     parser.add_argument("-n", "--n_sample", required=True, type=int, help="number of newly generated sample")
     Args = parser.parse_args()
