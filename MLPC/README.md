@@ -6,7 +6,7 @@
 **1.Property:**
 Get your fasta file ready (protein), switch your path
 ```
-Rscript property_feat.R
+Rscript property_feat.R -i protein.fa -o feature_table.txt
 ```
 **2.Sequence and Secondary structure:**
 For secondary structure predictions we recommend using the SCRATCH-1D to obtain '.ss8' file
