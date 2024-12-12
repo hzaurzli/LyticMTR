@@ -46,13 +46,22 @@ def predict(X_test, h5_model,res):
     output_file = res
     count = 0
     with open(output_file, 'w') as f:
+        f.write('ID' + '\t' + 'G-P' + '\t' + 'MES' + '\t' + 'G-G' + '\t' + 'Other' + '\t' + 'P-P' + '\n')
         for i in functions:
             f.write(feat_name[count] + '\t' + '\t'.join(i) + '\n')
             count += 1
     f.close()
             
 if __name__ == '__main__':
-    f = open('/home/user/Desktop/yyf_data/laber/random_sample/aaa.txt')
+    parser = argparse.ArgumentParser(description="Training")
+    parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
+    parser.add_argument("-m", "--model_path", required=True, type=str, help="model path (.h5)")
+    parser.add_argument("-r", "--res", required=True, type=str, help="result file")
+    Args = parser.parse_args()  
+    
+    f = open(Args.input_X)
+    h5_model = Args.model_path
+    res = Args.res      
   
     max_seq_len = 500
     feats = []
@@ -68,10 +77,5 @@ if __name__ == '__main__':
       feats.append(feat_tmp)
     
     feats_dat = np.array(feats)
-    model_path = '/home/user/Desktop/yyf_data/MLBP/MLBP/model.h5'
-    res = '/home/user/Desktop/yyf_data/MLBP/MLBP/result.txt' 
     predict(feats_dat,model_path,res)
-    
-    
-    
-    
+ 
