@@ -93,11 +93,11 @@ def predict(X_test, y_test, para, h5_model):
     
     output_file = './result_perf.txt'
     with open(output_file, 'w') as f:
-      f.write('aiming: '+aiming + '\n')
-      f.write('coverage: ' + coverage + '\n')
-      f.write('accuracy: ' + accuracy + '\n')
-      f.write('absolute_true: ' + absolute_true + '\n')
-      f.write('absolute_false: ' + absolute_false + '\n')
+      f.write('aiming: '+ str(aiming) + '\n')
+      f.write('coverage: ' + str(coverage) + '\n')
+      f.write('accuracy: ' + str(accuracy) + '\n')
+      f.write('absolute_true: ' + str(absolute_true) + '\n')
+      f.write('absolute_false: ' + str(absolute_false) + '\n')
     f.close()
       
 
