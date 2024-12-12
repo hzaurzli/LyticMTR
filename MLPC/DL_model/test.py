@@ -105,7 +105,7 @@ def test_my(test, para):
     test[1] = temp
         
     # step2:predict
-    predict(test[0], test[1], para, weights, jsonFiles, h5_model, dir)
+    predict(test[0], test[1], para, h5_model)
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Training")
