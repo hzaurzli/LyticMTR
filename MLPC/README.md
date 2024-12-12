@@ -29,6 +29,16 @@ python random_sample.py -i ./feat_glycosidase.txt -or ./random_sample/feat_glyco
 ## -kr sample number for training
 ## -ke sample number for testing
 ## -kv sample number for validation
+
+# Obtain training sets
+cat feat_amidase_1500.txt feat_MES_1500.txt feat_glycosidase_1500.txt feat_other_1500.txt feat_endo-peptidase_827.txt > train_1.txt
+
+# Mlsmote
+python mlsmote.py -iX train_1.txt -iy laber_class.txt -o random_sample -n 673
+## -iX feature table (txt,'\t')
+## -iy laber file (txt, '\t')
+## -o output path
+## -n number of newly generated sample
 ```
 
 
