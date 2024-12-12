@@ -26,24 +26,26 @@ if __name__ == '__main__':
   parser.add_argument("-i", "--input_file", required=True, type=str, help="input feature table (txt,'\t')")
   parser.add_argument("-or", "--output_train_file", required=True, type=str, help="output training feature table (after sample, txt,'\t')")
   parser.add_argument("-oe", "--output_test_file", required=True, type=str, help="output testing feature table (after sample, txt,'\t')")
+  parser.add_argument("-ov", "--output_valid_file", required=True, type=str, help="output validation feature table (after sample, txt,'\t')")
   parser.add_argument("-kr", "--sample_kr", required=True, type=int, help="sample number for training")
   parser.add_argument("-ke", "--sample_ke", required=True, type=int, help="sample number for testing")
+  parser.add_argument("-kv", "--sample_kv", required=True, type=int, help="sample number for validation")
   Args = parser.parse_args()
   
   f = open(Args.input_file)
   
-  old_dict = {}
-  new_dict = {}
+  old_train_dict = {}
+  new_train_dict = {}
   for i in f:
     key = i.strip().split('\t')[0]
     val = '\t'.join(i.strip().split('\t')[1:])
-    old_dict[key] = val
+    old_train_dict[key] = val
   
-  new_dict,old_test_dict = main(old_dict,new_dict,Args.sample_kr)
+  new_train_dict,old_test_dict = main(old_train_dict,new_train_dict,Args.sample_kr)
   
   with open(Args.output_train_file,'w') as w:
-    for key in new_dict:
-      line = key + '\t' + new_dict[key] + '\n'
+    for key in new_train_dict:
+      line = key + '\t' + new_train_dict[key] + '\n'
       w.write(line)
   w.close()
   
@@ -56,3 +58,22 @@ if __name__ == '__main__':
       line = key + '\t' + new_test_dict[key] + '\n'
       w.write(line)
   w.close()
+  
+  old_valid_dict = new_train_dict
+  old_valid_dict.update(new_test_dict)
+  new_valid_dict = {}
+  new_valid_dict_tmp = {}
+  
+  for key in old_train_dict:
+    if key not in old_valid_dict:
+      new_valid_dict_tmp[key] = old_train_dict[key]
+      
+  new_valid_dict = main_test(new_valid_dict_tmp,new_valid_dict,Args.sample_kv)
+  
+  with open(Args.output_valid_file,'w') as w:
+    for key in new_valid_dict:
+      line = key + '\t' + new_valid_dict[key] + '\n'
+      w.write(line)
+  w.close()
+  
+  
