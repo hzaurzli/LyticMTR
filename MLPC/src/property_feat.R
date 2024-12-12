@@ -2,9 +2,22 @@ library(tidyverse)
 library(dplyr)
 library(Biostrings)
 library(Peptides)  
+library(optparse)
+
+option_list <- list(
+  make_option(c("-i", "--input"), type = "character", default = FALSE,
+              action = "store", help = "input protein fasta! format .fa (.fasta)"
+  ),
+  make_option(c("-o", "--output"), type = "character", default = FALSE,
+              action = "store", help = "output property table! format .txt"
+  )
+)
+
+opt = parse_args(OptionParser(option_list = option_list, 
+                              usage = "property feature!"))
 
 
-fa <- readAAStringSet('D:/Documents/Desktop/amidase.fa')
+fa <- readAAStringSet(opt$input)
 
 table = data.frame(fa) %>%
   rownames_to_column("name") %>%
@@ -23,5 +36,5 @@ colnames(table) = c("ID","length","molecular_weight",
                     "pI","charge")
 
 
-write.table(table,'D:/Documents/Desktop/amidase.txt',
+write.table(table,opt$output,
           quote = F,row.names = F,sep = '\t')
