@@ -43,4 +43,39 @@ python mlsmote.py -iX train_1.txt -iy laber_class.txt -o random_sample -n 673
 ## -n number of newly generated sample
 ```
 
+**Training model:**
+```
+# Obtain training sets after mlsmote
+cat feat_amidase_1500.txt feat_MES_1500.txt feat_glycosidase_1500.txt feat_other_1500.txt X_res.txt > train_2.txt
+
+# Run CNN
+python run_CNN.py -iX train_2.txt -iy laber.txt
+## -iX feature table (txt,'\t')
+## -iy laber file (txt, '\t')
+
+# Run BiGRU
+python run_BiGRU.py -iX train_2.txt -iy laber.txt
+## -iX feature table (txt,'\t')
+## -iy laber file (txt, '\t')
+```
+
+## c.Tester
+If you want to test model performance, testing below:
+```
+python test.py -iX test.txt -iy laber.txt -m model.h5
+## -iX feature table for test sets (txt,'\t')
+## -iy laber file for test set (txt, '\t')
+## -m  model path (.h5)
+```
+
+## d.Predictor
+If you want to predict performance, see below:
+```
+python test.py -iX test.txt -iy laber.txt
+## -iX feature table for test sets (txt,'\t')
+## -m  model path (.h5)
+## -r  result file
+```
+
+
 
