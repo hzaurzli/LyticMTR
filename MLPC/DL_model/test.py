@@ -48,7 +48,7 @@ def predict(X_test, y_test, para, h5_model):
     
     adam = Adam(lr=para['learning_rate']) # adam optimizer
     # 1.loading weight and structure (model)
-    h5_model_path = 
+    h5_model_path = h5_model
     load_my_model = load_model(h5_model_path, custom_objects={'keras.backend': keras.backend, 'expand_dims': expand_dims}) # 需要传一个custom_objects参数,将自定义的层添加进去
     print("Prediction is in progress")
 
