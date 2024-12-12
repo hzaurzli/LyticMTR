@@ -12,6 +12,7 @@ from keras.models import load_model
 from keras.backend import expand_dims
 import numpy as np
 import pandas as pd
+import argparse
 
  
 def predict(X_test, h5_model,res):
@@ -77,5 +78,4 @@ if __name__ == '__main__':
       feats.append(feat_tmp)
     
     feats_dat = np.array(feats)
-    predict(feats_dat,model_path,res)
- 
+    predict(feats_dat,h5_model,res)
