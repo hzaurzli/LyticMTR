@@ -80,7 +80,7 @@ python test.py -iX test.txt -iy laber.txt -m model.h5
 
 ## d.Predictor
 
-If you want to predict performance, see below:
+If you want to predict new proteins, see below:
 
 ```
 python test.py -iX test.txt -iy laber.txt
