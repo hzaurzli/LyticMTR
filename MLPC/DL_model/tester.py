@@ -102,7 +102,7 @@ def predict(X_test, y_test, para, h5_model):
       
 
 
-def test_my(test, para):
+def run_tester(test, para):
     # step1: preprocessing
     test[1] = keras.utils.to_categorical(test[1])
     test[0], temp = catch(test[0], test[1])
@@ -161,4 +161,4 @@ if __name__ == '__main__':
     para = {'embedding_dimension': ed, 'pool_size': ps, 'fully_dimension': fd,
             'drop_out': dp, 'learning_rate': lr}
     
-    test_my(test, para)
+    run_tester(test, para)
