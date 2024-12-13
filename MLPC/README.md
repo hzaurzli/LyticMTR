@@ -1,6 +1,18 @@
 # MLPC
 ![MLPC](https://github.com/user-attachments/assets/e8df222e-a3e8-4651-ae30-a3bdd76b0ae3)
 
+# Installation
+
+Using conda to create env
+
+```
+# By conda
+conda env create -f MLPC.yaml
+
+# Activate env
+source activate mlpc
+```
+
 # How to start
 ## a.Feature engineering
 **1.Property:**
