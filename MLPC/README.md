@@ -83,8 +83,8 @@ python tester.py -iX test.txt -iy laber.txt -m model.h5
 If you want to predict new proteins, see below:
 
 ```
-python predictor.py -iX test.txt -iy laber.txt
-## -iX feature table for test sets (txt,'\t')
+python predictor.py -iX new_feature.txt -iy laber.txt
+## -iX feature table for new sets (txt,'\t')
 ## -m  model path (.h5)
 ## -r  result file
 ```
