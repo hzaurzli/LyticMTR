@@ -5,6 +5,7 @@ import numpy as np
 from pathlib import Path
 dir = 'BiGRU_base'
 Path(dir).mkdir(exist_ok=True)
+from sklearn.model_selection import train_test_split
 
 
 def Training(tr_data, tr_label):
@@ -15,7 +16,7 @@ def Training(tr_data, tr_label):
 
     threshold = 0.5
     
-    train_main(train, dir)
+    trainer_main(train, dir)
     
     print(train)
 
@@ -54,3 +55,4 @@ if __name__ == '__main__':
     print(labers_dat)
     
     Training(feats_dat, labers_dat)
+  
