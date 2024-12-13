@@ -9,7 +9,7 @@ Path(dir).mkdir(exist_ok=True)
 
 def Training(tr_data, tr_label):
 
-    from trainer import train_main # load my training function
+    from trainer import trainer_main # load my training function
 
     train = [tr_data, tr_label]
 
