@@ -161,4 +161,4 @@ dependencies:
       - tensorflow-gpu==1.12.0
       - urllib3==1.26.20
       - werkzeug==2.0.3
-prefix: /home/user/mambaforge/envs/mlbp
+prefix: /home/user/mambaforge/envs/mlpc
