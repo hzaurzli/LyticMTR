@@ -24,7 +24,7 @@ def Training(tr_data, tr_label):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Training")
     parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
-    parser.add_argument("-iy", "--input_y", required=True, type=str, help="laber file (txt, '\t')")
+    parser.add_argument("-iy", "--input_y", required=True, type=str, help="laber file (txt, '\t'")
     Args = parser.parse_args()
     
     f = open(Args.input_X)
@@ -55,6 +55,3 @@ if __name__ == '__main__':
     print(labers_dat)
     
     Training(feats_dat, labers_dat)
-  
-
-  
