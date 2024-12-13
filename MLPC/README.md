@@ -3,7 +3,7 @@
 
 # Installation
 
-Using conda to create env
+Using conda to create en
 
 ```
 # By conda
