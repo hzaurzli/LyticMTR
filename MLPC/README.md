@@ -1,5 +1,5 @@
 # MLPC
-![MLPC](https://github.com/user-attachments/assets/ac20331c-d081-4555-b5cd-3258713831c2)
+![MLPC](https://github.com/user-attachments/assets/ad7c974d-7d20-4693-ad43-5c2ea05a08ff)
 
 # Installation
 
