@@ -39,7 +39,7 @@ def catch(data, label):
 
 from model import *
 
-def train_my(train, para, model_path):
+def trainer(train, para, model_path):
 
     Path(model_path).mkdir(exist_ok=True)
     
@@ -78,8 +78,7 @@ def train_my(train, para, model_path):
        
        
 import time
-from test import test_my
-def train_main(train, dir):
+def trainer_main(train, dir):
 
     # parameters
     ed = 100
@@ -90,4 +89,4 @@ def train_main(train, dir):
     para = {'embedding_dimension': ed, 'pool_size': ps, 'fully_dimension': fd,
             'drop_out': dp, 'learning_rate': lr}
 
-    train_my(train, para, dir)
+    trainer(train, para, dir)
