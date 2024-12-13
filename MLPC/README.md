@@ -72,7 +72,7 @@ python run_BiGRU.py -iX train_2.txt -iy laber.txt
 If you want to test model performance, testing below:
 
 ```
-python test.py -iX test.txt -iy laber.txt -m model.h5
+python tester.py -iX test.txt -iy laber.txt -m model.h5
 ## -iX feature table for test sets (txt,'\t')
 ## -iy laber file for test set (txt, '\t')
 ## -m  model path (.h5)
@@ -83,7 +83,7 @@ python test.py -iX test.txt -iy laber.txt -m model.h5
 If you want to predict new proteins, see below:
 
 ```
-python test.py -iX test.txt -iy laber.txt
+python predictor.py -iX test.txt -iy laber.txt
 ## -iX feature table for test sets (txt,'\t')
 ## -m  model path (.h5)
 ## -r  result file
