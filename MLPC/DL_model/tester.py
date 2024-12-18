@@ -44,7 +44,7 @@ def catch(data, label):
     return data, label
 
 
-def predict(X_test, y_test, para, h5_model):
+def predict(X_test, y_test, y_laber, para, h5_model):
     
     adam = Adam(lr=para['learning_rate']) # adam optimizer
     # 1.loading weight and structure (model)
@@ -54,7 +54,7 @@ def predict(X_test, y_test, para, h5_model):
 
     # 2.predict
     score = load_my_model.predict(X_test)
-    print(score)
+
     score_laber = score
     "========================================"
     for i in range(len(score_laber)):
@@ -74,17 +74,30 @@ def predict(X_test, y_test, para, h5_model):
         else:
           laber.append('0')
       functions.append(laber)
+    
+    pred = []
+    for i in functions:
+      laber_tmp = ''.join(i)
+      if laber_tmp == '00001':
+          pred.append(0)
+      elif laber_tmp == '00010':
+          pred.append(1)
+      elif laber_tmp == '00100':
+          pred.append(2)
+      elif laber_tmp == '01000':
+          pred.append(3)
+      elif laber_tmp == '10000':
+          pred.append(4)
 
     "========================================"
-    print("========================================")
-    print(score_laber)
-    print("========================================")
-    print(y_test)
-
-    aiming, coverage, accuracy, absolute_true, absolute_false = evaluate(score_laber, y_test)
+    print(pred)
+    print(y_laber)
+    micro_precision,micro_recall,micro_f1,matthews_cor,accuracy,absolute_true,absolute_false = evaluate(score_laber, y_test, pred, y_laber)
     print("Prediction is done")
-    print('aiming:', aiming)
-    print('coverage:', coverage)
+    print('micro precision:', micro_precision)
+    print('micro recall:', micro_recall)
+    print('micro f1:', micro_f1)
+    print('matthews cor:', matthews_cor)
     print('accuracy:', accuracy)
     print('absolute_true:', absolute_true)
     print('absolute_false:', absolute_false)
@@ -93,8 +106,10 @@ def predict(X_test, y_test, para, h5_model):
     
     output_file = './result_perf.txt'
     with open(output_file, 'w') as f:
-      f.write('aiming: '+ str(aiming) + '\n')
-      f.write('coverage: ' + str(coverage) + '\n')
+      f.write('micro precision: '+ str(micro_precision) + '\n')
+      f.write('micro recall: ' + str(micro_recall) + '\n')
+      f.write('micro f1: ' + str(micro_f1) + '\n')
+      f.write('matthews cor: ' + str(matthews_cor) + '\n')
       f.write('accuracy: ' + str(accuracy) + '\n')
       f.write('absolute_true: ' + str(absolute_true) + '\n')
       f.write('absolute_false: ' + str(absolute_false) + '\n')
@@ -102,7 +117,7 @@ def predict(X_test, y_test, para, h5_model):
       
 
 
-def run_tester(test, para):
+def run_tester(test, y_laber, para):
     # step1: preprocessing
     test[1] = keras.utils.to_categorical(test[1])
     test[0], temp = catch(test[0], test[1])
@@ -110,7 +125,7 @@ def run_tester(test, para):
     test[1] = temp
         
     # step2:predict
-    predict(test[0], test[1], para, h5_model)
+    predict(test[0], test[1], y_laber, para, h5_model)
     
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Training")
@@ -148,9 +163,7 @@ if __name__ == '__main__':
     feats_dat = np.array(feats)
     labers_dat = np.array(labers)
     
-    feats_train, feats_test, labels_train, labels_test = train_test_split(feats_dat, labers_dat, test_size=0.1, random_state=0)
-           
-    test = [feats_test, labels_test]
+    test = [feats_dat, labers_dat]
   
     # parameters
     ed = 100
@@ -161,4 +174,4 @@ if __name__ == '__main__':
     para = {'embedding_dimension': ed, 'pool_size': ps, 'fully_dimension': fd,
             'drop_out': dp, 'learning_rate': lr}
     
-    run_tester(test, para)
+    run_tester(test, labers, para)
