@@ -77,7 +77,6 @@ def predict(X_test, y_test, y_laber, para, h5_model):
     
     pred = []
     for i in functions:
-      print(i)
       laber_tmp = ''.join(i)
       if laber_tmp == '10000':
           pred.append(0)
@@ -91,12 +90,12 @@ def predict(X_test, y_test, y_laber, para, h5_model):
           pred.append(4)
 
     "========================================"
-    micro_precision,micro_recall,micro_f1,matthews_cor,accuracy,absolute_true,absolute_false = evaluate(score_laber, y_test, pred, y_laber)
+    macro_precision,macro_recall,macro_f1,matthews_corr,accuracy,absolute_true,absolute_false = evaluate(score_laber, y_test, pred, y_laber)
     print("Prediction is done")
-    print('micro precision:', micro_precision)
-    print('micro recall:', micro_recall)
-    print('micro f1:', micro_f1)
-    print('matthews cor:', matthews_cor)
+    print('macro precision:', macro_precision)
+    print('macro recall:', macro_recall)
+    print('macro f1:', macro_f1)
+    print('matthews corr:', matthews_corr)
     print('accuracy:', accuracy)
     print('absolute_true:', absolute_true)
     print('absolute_false:', absolute_false)
@@ -105,10 +104,10 @@ def predict(X_test, y_test, y_laber, para, h5_model):
     
     output_file = './result_perf.txt'
     with open(output_file, 'w') as f:
-      f.write('micro precision: '+ str(micro_precision) + '\n')
-      f.write('micro recall: ' + str(micro_recall) + '\n')
-      f.write('micro f1: ' + str(micro_f1) + '\n')
-      f.write('matthews cor: ' + str(matthews_cor) + '\n')
+      f.write('macro precision: '+ str(macro_precision) + '\n')
+      f.write('macro recall: ' + str(macro_recall) + '\n')
+      f.write('macro f1: ' + str(macro_f1) + '\n')
+      f.write('matthews corr: ' + str(matthews_corr) + '\n')
       f.write('accuracy: ' + str(accuracy) + '\n')
       f.write('absolute_true: ' + str(absolute_true) + '\n')
       f.write('absolute_false: ' + str(absolute_false) + '\n')

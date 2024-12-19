@@ -1,15 +1,14 @@
-from sklearn.metrics import confusion_matrix,roc_auc_score,matthews_corrcoef,roc_curve,auc
-from sklearn.metrics import precision_score, recall_score, f1_score, matthews_corrcoef,accuracy_score
+from sklearn.metrics import precision_score,recall_score,f1_score,matthews_corrcoef,accuracy_score,confusion_matrix
 
 
 
 def scores(y_test,y_pred):
-    micro_precision = precision_score(y_test, y_pred, average='micro')
-    micro_recall = recall_score(y_test, y_pred, average='micro')
-    micro_f1 = f1_score(y_test, y_pred, average='micro')
-    matthews_cor = matthews_corrcoef(y_test, y_pred)
+    macro_precision = precision_score(y_test, y_pred, average='macro')
+    macro_recall = recall_score(y_test, y_pred, average='macro')
+    macro_f1 = f1_score(y_test, y_pred, average='macro')
+    matthews_corr = matthews_corrcoef(y_test, y_pred)
     accuracy = accuracy_score(y_test, y_pred)
-    return [micro_precision,micro_recall,micro_f1,matthews_cor,accuracy]
+    return [macro_precision,macro_recall,macro_f1,matthews_corr,accuracy]
 
 
 
@@ -48,11 +47,11 @@ def AbsoluteFalse(y_hat, y):
 
 def evaluate(y_hat, y, x_laber, y_laber):
     res = scores(x_laber,y_laber)
-    micro_precision = res[0]
-    micro_recall = res[1]
-    micro_f1 = res[2]
-    matthews_cor = res[3]
+    macro_precision = res[0]
+    macro_recall = res[1]
+    macro_f1 = res[2]
+    matthews_corr = res[3]
     accuracy = res[4]
     absolute_true = AbsoluteTrue(y_hat, y)
     absolute_false = AbsoluteFalse(y_hat, y)
-    return micro_precision,micro_recall,micro_f1,matthews_cor,accuracy,absolute_true,absolute_false
+    return macro_precision,macro_recall,macro_f1,matthews_corr,accuracy,absolute_true,absolute_false
