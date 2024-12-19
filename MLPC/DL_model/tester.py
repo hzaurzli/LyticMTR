@@ -77,21 +77,20 @@ def predict(X_test, y_test, y_laber, para, h5_model):
     
     pred = []
     for i in functions:
+      print(i)
       laber_tmp = ''.join(i)
-      if laber_tmp == '00001':
+      if laber_tmp == '10000':
           pred.append(0)
-      elif laber_tmp == '00010':
+      elif laber_tmp == '01000':
           pred.append(1)
       elif laber_tmp == '00100':
           pred.append(2)
-      elif laber_tmp == '01000':
+      elif laber_tmp == '00010':
           pred.append(3)
-      elif laber_tmp == '10000':
+      elif laber_tmp == '00001':
           pred.append(4)
 
     "========================================"
-    print(pred)
-    print(y_laber)
     micro_precision,micro_recall,micro_f1,matthews_cor,accuracy,absolute_true,absolute_false = evaluate(score_laber, y_test, pred, y_laber)
     print("Prediction is done")
     print('micro precision:', micro_precision)
