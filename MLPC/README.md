@@ -1,4 +1,7 @@
 # MLPC
+***Notice: The number of amino acids in a protein sequence cannot exceed 500 aa***
+
+
 ![MLPC](https://github.com/user-attachments/assets/c4f2b9db-90e3-44f9-9ca2-66c95801b31b)
 
 # Installation
