@@ -147,7 +147,7 @@ if __name__ == '__main__':
       struct_a.append(fa_struct[key])
       
           
-    seq_lenmax = len(max(data, key=len, default=''))
+    seq_lenmax = 500
     seq_pca_feature = seq_pca(data,encode_seq,seq_lenmax)
     struct_pca_feature = struct_pca(struct_a,encode,seq_lenmax)
     
