@@ -20,8 +20,8 @@ def find_continuous_chars(string, min_length):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Training")
-    parser.add_argument("-f", "--file_folder", required=True, type=str, help="SS grad cam score file path")
-    parser.add_argument("-l", "--min_len", required=True, type=int, help="min length for secondary structure")
+    parser.add_argument("-f", "--file_folder", required=True, type=str, help="secondary structure sequence grad cam score file path")
+    parser.add_argument("-l", "--min_len", required=True, type=int, help="min length for secondary structure sequence")
     parser.add_argument("-r", "--res_file", required=True, type=str, help="result file")
     Args = parser.parse_args()  
     
@@ -59,35 +59,67 @@ if __name__ == '__main__':
           if 'H' in position[key]:
               for id in range(start,end):
                   key_id = int(id) + 1
-                  H_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  H_score.append(float(mean_val))
           elif 'G' in position[key]:
               for id in range(start,end):
                   key_id = int(id) + 1
-                  G_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  G_score.append(float(mean_val))
           elif 'I' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  I_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  I_score.append(float(mean_val))
           elif 'E' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  E_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  E_score.append(float(mean_val))
           elif 'B' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  B_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  B_score.append(float(mean_val))
           elif 'T' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  T_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  T_score.append(float(mean_val))
           elif 'S' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  S_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  S_score.append(float(mean_val))
           elif 'C' in position[key]:
               for id in range(start, end):
                   key_id = int(id) + 1
-                  C_score.append(float(dict_score[str(key_id)]))
+                  if end - start == 1:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start)
+                  else:
+                    mean_val = float(dict_score[str(key_id)]) / (end - start - 1)
+                  C_score.append(float(mean_val))
     
     if len(H_score) == 0:
       H_average = 0
