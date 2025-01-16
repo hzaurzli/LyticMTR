@@ -82,7 +82,7 @@ def predict(X_test, h5_model, ss8_file, res_path):
       print(heatmap)
             
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Training")
+    parser = argparse.ArgumentParser(description="Grad CAM")
     parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
     parser.add_argument("-m", "--model_path", required=True, type=str, help="model path (.h5)")
     parser.add_argument("-s", "--ss8_file", required=True, type=str, help="ss8 file")
