@@ -38,7 +38,7 @@ def predict(X_test, h5_model, ss8_file, res_path):
 
     y_pred = list(load_my_model.predict(X_test)[0])
     ret = load_my_model.output[0, y_pred.index(max(y_pred))]
-    last_conv_layer = load_my_model.get_layer("bidirectional_1")   #Please use conv1d_2 for model 2022 and conv1d_3 for model 2023.
+    last_conv_layer = load_my_model.get_layer("bidirectional_1")
     fm = last_conv_layer.output
     grads = K.gradients(ret, last_conv_layer.output)[0]
     pooled_grads = K.mean(grads, axis=(0, 1))
