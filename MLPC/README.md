@@ -130,7 +130,7 @@ python min_length_ss_score.py -f /.../input/ -l 5 -r res.csv
 python motif_finder.py -i ./Grad_CAM_score_folder/ -o ./motif.csv -c 0.6 -ml 5 -mu 20
 ## -f  Grad-CAM score folder, the file example in exampleData (folder) protein_Grad_CAM_1.csv or protein_Grad_CAM_2.csv
 ## -o  result file (.csv)
-## -c  Grad-CAM score cut off
+## -c  Grad-CAM position weight cut off
 ## -ml Motif length lower
 ## -mu Motif length upper
 ```
