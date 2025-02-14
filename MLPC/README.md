@@ -105,7 +105,7 @@ python predictor.py -iX new_feature.txt -r res.txt -m model.h5
 ```
 
 ### Supp.
-Using Grad_CAM.py to calculate BiGRU layer Grad-CAM position weight which is corresponding to secondary structure sequences
+1. Using Grad_CAM.py to calculate BiGRU layer Grad-CAM position weight which is corresponding to secondary structure sequences
 
 ```
 python Grad_CAM.py -iX feature.txt -s secondary_structure.ss8 -r /.../res/ -m model.h5
@@ -115,7 +115,7 @@ python Grad_CAM.py -iX feature.txt -s secondary_structure.ss8 -r /.../res/ -m mo
 ## -m  model path (.h5)
 ```
 
-Using min_length_ss_score.py to calculate different secondary structure average weight in different length, the main purpose is to check the weight of an entire alpha-helix (or other secondary structure type) 
+2. Using min_length_ss_score.py to calculate different secondary structure average weight in different length, the main purpose is to check the weight of an entire alpha-helix (or other secondary structure type) 
 
 ```
 python min_length_ss_score.py -f /.../input/ -l 5 -r res.csv
@@ -124,7 +124,7 @@ python min_length_ss_score.py -f /.../input/ -l 5 -r res.csv
 ## -r  result file
 ```
 
-Using motif_finder.py to search for secondary structure motifs that meets the Grad-CAM position weight cut off, users can customize the cut off and length range of motifs
+3. Using motif_finder.py to search for secondary structure motifs that meets the Grad-CAM position weight cut off, users can customize the cut off and length range of motifs
 
 ```
 python motif_finder.py -i ./Grad_CAM_score_folder/ -o ./motif.csv -c 0.6 -ml 5 -mu 20
