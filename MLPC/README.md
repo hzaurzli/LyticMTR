@@ -22,7 +22,7 @@ source activate mlpc
 
 Get your fasta file ready (protein), switch your path
 ```
-Rscript property_feat.R -i protein.fa -o feature_table.txt
+Rscript property_feature.R -i protein.fa -o feature_table.txt
 ## -i input protein fasta! format .fa (.fasta)
 ## -o output property table! format .txt
 ```
