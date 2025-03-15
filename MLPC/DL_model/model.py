@@ -1,5 +1,5 @@
 from keras.layers import Input, Embedding, Convolution1D, MaxPooling1D, Concatenate, Dropout, merge, Lambda
-from keras.layers import Flatten, Dense, Activation, BatchNormalization, GRU
+from keras.layers import Flatten, Dense, Activation, BatchNormalization, GRU, LSTM
 from keras.models import Model, Sequential
 from keras.regularizers import l2
 from keras.optimizers import Adam, SGD
