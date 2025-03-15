@@ -234,7 +234,7 @@ def BiLSTM_base(length, out_length, para):
     merge = Dropout(dp)(merge)
 
 
-    x = Bidirectional(GRU(50, return_sequences=True))(merge) # cpu对应函数为GRU, gpu对应函数为CuDNNGRU
+    x = Bidirectional(LSTM(50, return_sequences=True))(merge) # cpu对应函数为LSTM
     x = Flatten()(x)
     x = Dense(fd, activation='relu', name='FC1', W_regularizer=l2(l2value))(x)
 
