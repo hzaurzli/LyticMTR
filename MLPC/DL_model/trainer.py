@@ -68,6 +68,8 @@ def trainer(train, para, model_path):
         model = CNN_base(length, out_length, para)
     elif model_path == 'BiGRU_base':
         model = BiGRU_base(length, out_length, para)
+    elif model_path == 'BiLSTM_base':
+        model = BiLSTM_base(length, out_length, para)
     else:
         print('no model')
     
