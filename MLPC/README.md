@@ -135,3 +135,6 @@ python motif_finder.py -i ./Grad_CAM_score_folder/ -o ./motif.csv -c 0.6 -ml 5 -
 ## -mu Motif length upper
 ```
 
+Model address:
+  Link: https://caiyun.139.com/w/i/2nFZ7HJiqBguh
+  Password: ucbu
