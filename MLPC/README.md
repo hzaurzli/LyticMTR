@@ -135,6 +135,33 @@ python motif_finder.py -i ./Grad_CAM_score_folder/ -o ./motif.csv -c 0.6 -ml 5 -
 ## -mu Motif length upper
 ```
 
+# Error tip
+**a. Tensorflow is not initialized**
+If error:
+```
+Traceback (most recent call last):
+  File "Grad_CAM.py", line 145, in <module>
+    predict(feats_dat,h5_model,ss8_file,res_path)
+  File "Grad_CAM.py", line 76, in predict
+    pooled_grads_value, conv_layer_output_value = iterate([X_test[sample_idx:sample_idx+1]])
+  File "/home/xiaorunze/miniconda3/envs/mlpc/lib/python3.6/site-packages/tensorflow/python/keras/backend.py", line 2986, in __call__
+    run_metadata=self.run_metadata)
+  File "/home/xiaorunze/miniconda3/envs/mlpc/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1439, in __call__
+    run_metadata_ptr)
+  File "/home/xiaorunze/miniconda3/envs/mlpc/lib/python3.6/site-packages/tensorflow/python/framework/errors_impl.py", line 528, in __exit__
+    c_api.TF_GetCode(self.status.status))
+tensorflow.python.framework.errors_impl.FailedPreconditionError: Attempting to use uninitialized value FC1/kernel
+         [[{{node FC1/kernel/read}} = Identity[T=DT_FLOAT, _device="/job:localhost/replica:0/task:0/device:CPU:0"](FC1/kernel)]]
+```
+please add codes into 'Grad_CAM.py', see 'Grad_CAM.py' line 45-47:
+```
+# 对模型中的变量进行初始化,否则会报错
+init = tf.global_variables_initializer()
+sess = K.get_session()
+sess.run(init)
+```
+
+# Model download
 Model address:
   Link: https://caiyun.139.com/w/i/2nFZ7HJiqBguh
   Password: ucbu
