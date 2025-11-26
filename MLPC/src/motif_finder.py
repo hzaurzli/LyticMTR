@@ -32,7 +32,7 @@ def main(file_path,output_path,cut_off, upper, lower):
           f.close()
       
           count = 0
-          for num in range(lower,upper + 1): # 控制 motif 长度
+          for num in range(lower - 1,upper):
               f = open(file_name)
               next(f)
               for i in f:
@@ -76,3 +76,4 @@ if __name__ == "__main__":
     lower = Args.motif_length_lower
     
     main(file_path, output_path, cut_off, upper, lower)
+    
