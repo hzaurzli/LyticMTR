@@ -8,11 +8,12 @@ from keras.optimizers import Adam
 from keras.models import model_from_json
 from evaluation import scores, evaluate
 import pickle
-from keras.models import load_model
 from keras.backend import expand_dims
 import numpy as np
 import pandas as pd
 import argparse
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 
  
 def predict(X_test, h5_model,res):
