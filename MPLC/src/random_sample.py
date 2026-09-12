@@ -23,6 +23,7 @@ def main_test(dict1,dict2,k):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description="random sample")
+  parser.add_argument("-s", "--seed", type=int, default=42, help="random seed")
   parser.add_argument("-i", "--input_file", required=True, type=str, help="input feature table (txt,'\t')")
   parser.add_argument("-or", "--output_train_file", required=True, type=str, help="output training feature table (after sample, txt,'\t')")
   parser.add_argument("-oe", "--output_test_file", required=True, type=str, help="output testing feature table (after sample, txt,'\t')")
@@ -75,5 +76,4 @@ if __name__ == '__main__':
       line = key + '\t' + new_valid_dict[key] + '\n'
       w.write(line)
   w.close()
-  
   
