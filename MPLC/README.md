@@ -56,7 +56,7 @@ python random_sample.py -s 1212 -i ./feat_glycosidase.txt -or ./train/feat_glyco
 ## -kv sample number for validation
 
 # Obtain training sets
-cat feat_amidase_1500.txt feat_MES_1500.txt feat_glycosidase_1500.txt feat_other_1500.txt feat_endo-peptidase_827.txt > train_1.txt
+cat feat_amidase_1500.txt feat_CHAP_1000.txt feat_glycosidase_1500.txt feat_other_1500.txt feat_peptidase_627.txt > train_1.txt
 
 # Mlsmote
 python mlsmote.py -iX train_1.txt -iy laber_class.txt -o random_sample -n 673
