@@ -1,4 +1,4 @@
-# MLPC
+# MPLC: Multi-Class Phage Lysin Cleavage type predictor
 ***Notice: The number of amino acids in a protein sequence cannot exceed 500 AA***
 
 
