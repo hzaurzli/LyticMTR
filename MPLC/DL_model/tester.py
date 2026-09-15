@@ -35,9 +35,6 @@ def catch(data, label):
         t = [i] + idx
         if bo:
             chongfu += 1
-        data = np.delete(data, idx, axis=0)
-        label = np.delete(label, idx, axis=0)
-
         if i == len(data)-1:
             break
     print('total number of the same data: ', chongfu)
