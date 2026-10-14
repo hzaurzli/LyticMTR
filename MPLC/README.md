@@ -106,10 +106,10 @@ python predictor.py -iX new_feature.txt -r res.txt -m model.h5
 ```
 
 ### ss Motifs finder.
-1. Using Grad_CAM.py to calculate BiGRU layer Grad-CAM position weight which is corresponding to secondary structure sequences
+1. Using Grad_CAM_BiGRU.py to calculate BiGRU layer Grad-CAM position weight which is corresponding to secondary structure sequences
 
 ```
-python Grad_CAM.py -iX feature.txt -s secondary_structure.ss8 -r /.../Grad_CAM_score_folder/ -m model.h5
+python Grad_CAM_BiGRU.py -iX feature.txt -s secondary_structure.ss8 -r /.../Grad_CAM_score_folder/ -m model.h5
 ## -iX feature table for new sets (txt,'\t')
 ## -s  ss8 file predicted by "SCRATCH"
 ## -r  result folder (path)
