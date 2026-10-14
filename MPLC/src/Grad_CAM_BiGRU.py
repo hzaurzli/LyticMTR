@@ -1,152 +1,135 @@
 import os
-import time
-import numpy as np
-from pathlib import Path
-from sklearn.model_selection import train_test_split
-import keras
-from keras.optimizers import Adam
-from keras.models import model_from_json
-from evaluation import scores, evaluate
-import pickle
-from keras.models import load_model
-from keras.backend import expand_dims
-from tensorflow.keras import backend as K
-import numpy as np
-import pandas as pd
 import argparse
+import numpy as np
 import tensorflow as tf
+from tensorflow.keras.models import load_model
+from tensorflow.keras import backend as K
+from tensorflow.keras.backend import expand_dims
+import keras
+from tqdm import tqdm
 
 
-def fasta2dict(fasta_name):    
-  with open(fasta_name) as fa:
-      fa_dict = {}
-      for line in fa:
-          line = line.replace('\n','')
-          if line.startswith('>'):
-              seq_name = line[1:]
-              fa_dict[seq_name] = ''
-          else:
-              fa_dict[seq_name] += line.replace('\n','')
-  return fa_dict
-  
- 
-def predict(X_test, h5_model, ss8_file, res_path):
+def fasta2dict(fasta_name):
+    fa_dict = {}
+    keys = []
+    with open(fasta_name) as fa:
+        for line in fa:
+            line = line.rstrip('\n')
+            if not line:
+                continue
+            if line.startswith('>'):
+                seq_name = line[1:]
+                fa_dict[seq_name] = ''
+                keys.append(seq_name)
+            else:
+                fa_dict[keys[-1]] += line
+    return fa_dict
 
-    h5_model_path = h5_model
-    load_my_model = load_model(h5_model_path, custom_objects={'keras.backend': keras.backend, 'expand_dims': expand_dims})
-    
-    heatmaps = np.zeros([1, int(500)], dtype=float)
 
-    y_pred = list(load_my_model.predict(X_test)[0])
-    
-    #y_pred = load_my_model.predict(X_test)  # 需要先进行预测
-    
-    # 对模型中的变量进行初始化,否则会报错
-    init = tf.global_variables_initializer()
-    sess = K.get_session()
-    sess.run(init)
+def iter_feature_table(path):
+    with open(path) as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            feat_other = line.split('\t')[1:]
+            yield np.array([list(map(float, feat_other))], dtype=np.float32)
 
-    ret = load_my_model.output[0, np.argmax(y_pred)]  # 更简洁的写法
-    
-    # 获取双向循环层
-    last_conv_layer = load_my_model.get_layer("bidirectional_1")
-    fm = last_conv_layer.output
-    
-    # 计算梯度
-    grads = K.gradients(ret, last_conv_layer.output)[0]
-    
-    # 对于循环神经网络，通常在时间维度上求平均
-    pooled_grads = K.mean(grads, axis=(0, 1))  # 假设输出形状为 (batch, timesteps, features)
-    
-    # 创建计算函数
-    iterate = K.function([load_my_model.input], [pooled_grads, last_conv_layer.output[0]])
-    
-    # 初始化heatmaps（需要在循环外初始化）
-    heatmaps = np.array([]).reshape(0, X_test.shape[1])  # 假设时间步长为 X_test.shape[1]
-    
-    # 对每个测试样本计算heatmap
-    for sample_idx in range(len(X_test)):
-        # 获取当前样本的预测
-        sample_pred = load_my_model.predict(X_test[sample_idx:sample_idx+1])
-        ret = load_my_model.output[0, np.argmax(sample_pred)]
-        
-        # 重新定义计算图（因为ret依赖于具体样本）
-        grads = K.gradients(ret, last_conv_layer.output)[0]
-        pooled_grads = K.mean(grads, axis=(0, 1))
-        iterate = K.function([load_my_model.input], [pooled_grads, last_conv_layer.output[0]])
-        
-        # 计算梯度和特征图
-        pooled_grads_value, conv_layer_output_value = iterate([X_test[sample_idx:sample_idx+1]])
-        
-        # 应用梯度权重
-        for i in range(pooled_grads_value.shape[0]):  # 特征维度
-            conv_layer_output_value[:, i] *= pooled_grads_value[i]
-        
-        # 创建heatmap
-        heatmap = np.mean(conv_layer_output_value, axis=-1)  # 沿特征维度平均
-        heatmap = np.squeeze(heatmap)  # 移除不必要的维度
-        
-        # 存储heatmap
-        if len(heatmaps) == 0:
-            heatmaps = heatmap[np.newaxis, :]
+
+def build_gradcam_function(model, layer_name):
+    target_layer = model.get_layer(layer_name)
+    layer_output = target_layer.output
+
+    model_output = model.output
+    if isinstance(model_output, (list, tuple)):
+        model_output = model_output[0]
+
+    pred_index = tf.argmax(model_output[0])
+    class_score = tf.gather(model_output[0], pred_index)
+
+    grads = K.gradients(class_score, layer_output)
+    grads = grads[0]
+
+    pooled_grads = K.mean(grads, axis=(0, 1))
+
+    iterate = K.function([model.input], [pooled_grads, layer_output[0]])
+    return iterate
+
+
+def compute_heatmap(iterate, X):
+    pooled_grads_val, conv_out_val = iterate([X])
+    weighted = conv_out_val * pooled_grads_val
+    heatmap = np.mean(weighted, axis=-1)
+    return np.squeeze(heatmap)
+
+
+def write_results(fa_dict, mean_heatmap, res_path):
+    os.makedirs(res_path, exist_ok=True)
+    n = mean_heatmap.shape[0]
+
+    for key, seq in fa_dict.items():
+        head = key.strip().split(' ')[0]
+        if head.startswith('s'):
+            name = head.split('|')[1]
         else:
-            heatmaps = np.vstack([heatmaps, heatmap[np.newaxis, :]])
-    
-    # 计算平均heatmap
-    mean_heatmap = np.mean(heatmaps, axis=0)
-    mean_heatmap = np.maximum(mean_heatmap, 0)
-    mean_heatmap /= np.max(mean_heatmap) + 1e-10  # 避免除零错误
-    
+            name = head
+        out_path = os.path.join(res_path, name + ".csv")
+        with open(out_path, "w") as f:
+            f.write("No.,residue,weight\n")
+            for i, aa in enumerate(seq):
+                w = float(mean_heatmap[i]) if i < n else 0.0
+                f.write(f"{i+1},{aa},{w}\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Grad-CAM-BiGRU Algorithm")
+    parser.add_argument("-iX", "--input_X", required=True, type=str)
+    parser.add_argument("-m", "--model_path", required=True, type=str)
+    parser.add_argument("-s", "--ss8_file", required=True, type=str)
+    parser.add_argument("-r", "--res_path", required=True, type=str)
+    parser.add_argument("-l", "--layer", default="bidirectional_1", type=str)
+    args = parser.parse_args()
+
+    model = load_model(
+        args.model_path,
+        custom_objects={
+            'keras.backend': keras.backend,
+            'expand_dims': expand_dims
+        },
+    )
+
+    print("model.output:", model.output)
+
+    iterate = build_gradcam_function(model, args.layer)
+
+    fa_dict = fasta2dict(args.ss8_file)
+    total_samples = 0
+    with open(args.input_X) as f:
+        for line in f:
+            if line.strip():
+                total_samples += 1
+
+    mean_heatmap = None
+    for X in tqdm(iter_feature_table(args.input_X),
+                  total=total_samples,
+                  desc="Computing Grad-CAM-BiGRU heatmaps"):
+        hm = compute_heatmap(iterate, X)
+        if mean_heatmap is None:
+            mean_heatmap = np.zeros_like(hm, dtype=np.float64)
+        mean_heatmap += hm
+
+    if total_samples == 0:
+        raise ValueError("No samples found in input_X")
+
+    mean_heatmap /= total_samples
+    mean_heatmap = np.maximum(mean_heatmap, 0.0)
+    mean_heatmap = mean_heatmap / (mean_heatmap.max() + 1e-10)
+
     print("Final heatmap shape:", mean_heatmap.shape)
-
     print(mean_heatmap)
-    fa = fasta2dict(ss8_file)
 
-    for key in fa:
-      seq_dir = os.path.abspath(res_path)
-      if key.strip().split(' ')[0].startswith('s'):
-        name = key.strip().split(' ')[0].split('|')[1]
-        seq_dir = seq_dir + '/' + name + ".csv"
-      else:
-        name = key.strip().split(' ')[0]
-        seq_dir = seq_dir + '/' + name + ".csv"
-      
-      f = open(seq_dir, "w")
-      seq = fa[key]
-      f.write("No.,residue,weight\n")
-      for i in range(len(seq)):
-          if i < int(mean_heatmap.shape[0]):
-              f.write(str(i+1)+","+seq[i]+","+str(mean_heatmap[i])+"\n")
-          else:
-              f.write(str(i+1)+","+seq[i]+",0\n")
-      f.close()
-    
-            
+    write_results(fa_dict, mean_heatmap, args.res_path)
+
+
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Grad CAM")
-    parser.add_argument("-iX", "--input_X", required=True, type=str, help="feature table (txt,'\t')")
-    parser.add_argument("-m", "--model_path", required=True, type=str, help="model path (.h5)")
-    parser.add_argument("-s", "--ss8_file", required=True, type=str, help="ss8 file")
-    parser.add_argument("-r", "--res_path", required=True, type=str, help="result path")
-    Args = parser.parse_args()  
-    
-    f = open(Args.input_X)
-    h5_model = Args.model_path
-    ss8_file = Args.ss8_file
-    res_path = Args.res_path
-  
-    max_seq_len = 500
-    
-    for i in f:
-      feats = []
-      feat_other = i.strip().split('\t')[506:]
-      feat_tmp = list(map(float,feat_other)) 
-      #feat_other = i.strip().split('\t')[506:]
-      #feat_tmp = list(map(float,feat_other))
-      feats.append(feat_tmp)
-      feats_dat = np.array(feats)
-      predict(feats_dat,h5_model,ss8_file,res_path)
-    
-    
-    
-    
+    main()
