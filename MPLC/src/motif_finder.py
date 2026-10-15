@@ -62,7 +62,7 @@ def main(file_path,output_path,cut_off, upper, lower):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="SS motif finder")
-    parser.add_argument("-i", "--input", required=True, type=str, help="Grad-CAM position weight file (.csv) path")
+    parser.add_argument("-i", "--input", required=True, type=str, help="Grad-CAM-BiGRU position weight file (.csv) path")
     parser.add_argument("-o", "--output", required=True, type=str, help="SS motif information")
     parser.add_argument("-c", "--cut_off", required=True, type=float, help="Grad-CAM position weight cut off")
     parser.add_argument("-mu", "--motif_length_upper", required=True, type=int, help="Motif length upper")

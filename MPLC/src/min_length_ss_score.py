@@ -20,7 +20,7 @@ def find_continuous_chars(string, min_length):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="min length for secondary structure")
-    parser.add_argument("-f", "--file_folder", required=True, type=str, help="secondary structure sequence grad cam score file path")
+    parser.add_argument("-f", "--file_folder", required=True, type=str, help="secondary structure sequence grad cam bigru score file path")
     parser.add_argument("-l", "--min_len", required=True, type=int, help="min length for secondary structure sequence")
     parser.add_argument("-r", "--res_file", required=True, type=str, help="result file")
     Args = parser.parse_args()  
