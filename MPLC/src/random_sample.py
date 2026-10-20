@@ -35,6 +35,8 @@ if __name__ == '__main__':
   
   f = open(Args.input_file)
   
+  np.random.seed(args.seed)
+  
   old_train_dict = {}
   new_train_dict = {}
   for i in f:
@@ -76,4 +78,5 @@ if __name__ == '__main__':
       line = key + '\t' + new_valid_dict[key] + '\n'
       w.write(line)
   w.close()
+  
   
