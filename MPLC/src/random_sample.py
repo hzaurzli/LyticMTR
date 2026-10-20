@@ -35,7 +35,7 @@ if __name__ == '__main__':
   
   f = open(Args.input_file)
   
-  np.random.seed(args.seed)
+  np.random.seed(Args.seed)
   
   old_train_dict = {}
   new_train_dict = {}
