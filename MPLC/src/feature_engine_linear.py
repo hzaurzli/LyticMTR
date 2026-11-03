@@ -70,7 +70,9 @@ def fasta2dict(fasta_name):
 
 
 if __name__ == '__main__':
-    np.random.seed(42)
+    random.seed(123)
+    np.random.seed(123)
+    tf.random.set_random_seed(123)
 
     parser = argparse.ArgumentParser(description="Feature engine")
     parser.add_argument("-f",  "--fasta",     required=True, type=str, help="protein sequence")
