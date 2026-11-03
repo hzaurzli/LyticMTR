@@ -149,14 +149,14 @@ if __name__ == '__main__':
         property_all_lis.append(property_lis)
     property_feat.close()
 
-    property_seq_pca = []
+    property_seq_liner = []
     for i in range(len(seq_linear_feature)):
-        property_seq_pca.append(
+        property_seq_liner.append(
             property_all_lis[i] + seq_linear_feature[i] + struct_linear_feature[i]
         )
 
     with open(res_feat, 'w', newline='') as f:
-        for i in property_seq_pca:
+        for i in property_seq_liner:
             new_i = list(map(str, i))
             line = '\t'.join(new_i) + '\n'
             f.write(line)
